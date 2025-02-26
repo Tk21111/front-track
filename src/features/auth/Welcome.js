@@ -76,13 +76,6 @@ const ImageUpload = () => {
           <img src={preview} alt="Preview" style={{ width: '200px', height: 'auto' }} />
         </div>
       )}
-      {uploadedImage && (
-        <div>
-          <h3>Uploaded Image:</h3>
-          <img src={uploadedImage} alt="Uploaded" style={{ width: '200px', height: 'auto' }} />
-        </div>
-      )}
-      {message && <p>{message}</p>}
 
       
 
