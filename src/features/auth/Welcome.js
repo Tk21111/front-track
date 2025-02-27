@@ -40,6 +40,7 @@ const ImageUpload = () => {
       const response = await fetch('http://localhost:3500/img', {
         method: 'POST',
         body: formData,
+        credentials : 'include'
       });
 
       const data = await response.json();
