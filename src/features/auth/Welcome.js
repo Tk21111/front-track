@@ -37,7 +37,7 @@ const ImageUpload = () => {
     formData.append('type', imageType); // Append the selected type
 
     try {
-      const response = await fetch('http://localhost:3500/img', {
+      const response = await fetch('http://localhost:8000/process_image', {
         method: 'POST',
         body: formData,
         credentials : 'include'
