@@ -60,8 +60,9 @@
   "sex" : "sex",
   "password" : "password",
   "cpassword" : "confirm password",
-  "signin" : "sign in",
+  "signin" : "registor",
   "login" : "log in",
-  "TTD" : "remember me"
+  "TTD" : "remember me",
+  "pretext-welcome" : "Scan garbage to see type of them"
 
 }

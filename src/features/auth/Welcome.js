@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentScore, selectCurrentToken, selectCurrentUser, selectCurrentUserId } from './authSlice';
 import { Link } from 'react-router-dom'; // Import Link for navigation
+import Header from '../../components/Header';
+import { translate } from '../../hooks/translator';
 
 const ImageUpload = () => {
   const [image, setImage] = useState(null);
@@ -63,13 +65,15 @@ const ImageUpload = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-      <h1>{"username : " + username || null}</h1>
+    <div className="page" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+      <Header/>
+      <div style={{marginTop: '10vh' , display: 'flex', flexDirection: 'column' , flexWrap : 'wrap', alignItems: 'center', textAlign: 'center' ,   gap: '20px' // Adds space between child elements
+}}>
+      <h1>{translate("pretext-welcome")}</h1>
       <h1 style={{ marginBottom: '20px' }}>Upload Image</h1>
-      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-        <p>{score || 0} : score</p>
-        <input type="file" onChange={handleFileChange} accept="image/*" />
-        <button type="submit">Upload</button>
+      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' , gap: '20px' }}>
+        <input type="file" className='buttonCF' onChange={handleFileChange} accept="image/*" />
+        <button type="submit" className='buttonCF'>Upload</button>
       </form>
       {preview && (
         <div>
@@ -78,23 +82,16 @@ const ImageUpload = () => {
         </div>
       )}
 
-      
-
-      {/* Link to GetUser Component */}
-      <Link to="/getuser" style={{ marginTop: '20px', textDecoration: 'none', color: 'blue' }}>
-        Go to User
-      </Link>
-
       {/* Conditional rendering based on the message */}
       {message === "" ? null : (
         message === "gogo" ? (
           <div>
-            <p style={{ color: "orange" }}>{"ทิ้งถังขยะสีเหลือง"}</p>
+            <h2 style={{ color: "orange" }}>{"ทิ้งถังขยะสีเหลือง"}</h2>
             <img src={require('../../components/img/gogo.png')} alt="gogo" style={{ width: '200px', height: 'auto' }} />
           </div>
         ) : (
           <div>
-            <p style={{ color: "blue" }}>{"ทิ้งถังขยะสีฟ้า"}</p>
+            <h2 style={{ color: "blue" }}>{"ทิ้งถังขยะสีฟ้า"}</h2>
             <img src={require('../../components/img/lala.png')} alt="gogo" style={{ width: '200px', height: 'auto' }} />
           </div>
           
@@ -106,6 +103,8 @@ const ImageUpload = () => {
         <button onClick={() => handleTypeChange(true)}>gg</button>
         <button onClick={() => handleTypeChange(false)}>lactasoy</button>
       </div>
+      </div>
+     
       
     </div>
   );

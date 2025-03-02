@@ -60,9 +60,12 @@ const Signin = () => {
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
                     {errMsg}
                 </p>
-                <h1 className='welcomefont' style={{color : '#FFE55F'}}>Signin</h1>
+                <div className="single-parent" style={{display : 'flex' , justifyContent: 'center'}}>
+                    <img src={require("../../components/img/Smart_drop_trash.png")} alt="logo" style={{width : '50%' , height : '50%'}}/>
+                </div>
+                <h1  style={{ textAlign : 'center'}}>Registor</h1>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="username" className='welcomefont' style={{color : '#F9AEFF'}}>{translate('username')}</label>
+                    <label htmlFor="username" className='welcomefont'  style={{color : 'whitesmoke' , textDecoration : 'underline' , textUnderlinePosition : 'under'}}>{translate('username')}</label>
                     <input
                         type="text"
                         id="username"
@@ -71,24 +74,30 @@ const Signin = () => {
                         onChange={(e) => setUser(e.target.value)}
                         autoComplete="off"
                         required
+                        style={{backgroundColor : 'whitesmoke' , boxShadow : '2px 2px 0px 1px black'}}
+
                     />
-                    <label htmlFor="password" className='welcomefont' style={{color : '#F9AEFF'}}>{translate("password")}</label>
+                    <label htmlFor="password" className='welcomefont'  style={{color : 'whitesmoke' , textDecoration : 'underline' , textUnderlinePosition : 'under'}}>{translate("password")}</label>
                     <input
                         type="password"
                         id="password"
                         value={pwd}
                         onChange={(e) => setPwd(e.target.value)}
                         required
+                        style={{backgroundColor : 'whitesmoke' , boxShadow : '2px 2px 0px 1px black'}}
+
                     />
-                    <label htmlFor="cpassword" className='welcomefont' style={{color : '#F9AEFF'}}>{translate("cpassword")}</label>
+                    <label htmlFor="cpassword" className='welcomefont'  style={{color : 'whitesmoke' , textDecoration : 'underline' , textUnderlinePosition : 'under'}}>{translate("cpassword")}</label>
                     <input
                         type="password"
                         id="cpassword"
                         value={cpwd}
                         onChange={(e) => setCPwd(e.target.value)}
                         required
+                        style={{backgroundColor : 'whitesmoke' , boxShadow : '2px 2px 0px 1px black'}}
+
                     />
-                    <button className='buttonCF' style={{color : '#B0E7FF' , backgroundColor : '#F9AEFF'}}>{translate("signin")}</button>
+                    <button className='buttonCF' >{translate("signin")}</button>
                 </form>
             </section>
         </div>

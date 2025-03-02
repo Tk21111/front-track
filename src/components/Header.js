@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import { Link, useNavigate, useParams } from 'react-router-dom'; 
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser, selectCurrentAka, selectCurrentImage } from '../features/auth/authSlice';
+import { selectCurrentUser, selectCurrentAka, selectCurrentImage, selectCurrentScore, selectCurrentUserId } from '../features/auth/authSlice';
 
 import { switchLanguage , translate } from '../hooks/translator';
 
@@ -19,7 +19,9 @@ function Header() {
 
   const user = useSelector(selectCurrentUser);
   const aka = useSelector(selectCurrentAka);
+  const userId = useSelector(selectCurrentUserId);
   const image = useSelector(selectCurrentImage);
+  const score = useSelector(selectCurrentScore); 
   
 
   const handleSwitch = () => {
@@ -36,21 +38,18 @@ function Header() {
   return ReactDom.createPortal(
     <header className="header" style={{zIndex : 909}}> 
       <div className='headerComp'>
-        <img onClick={() => { navigate(-1); }} src={require('../components/img/back.png')} alt="back" className="logo" />
+        <img onClick={() => { navigate(-1); }} src={require('../components/img/back.png')} alt="back" className="logo" style={{marginLeft : '-15px' , height : '40px' , width : '30px'}} />
+        <div className="circle">{score || 0}</div>
       </div>
-      <div className='headerComp'>
-        <a href="/welcome">
-          <img src={require('../components/img/logoapp.png')} alt="home" className="logo" style={{marginLeft: '50%' ,width : '80%' }} />
-        </a>
-      </div>
+      
       <nav className='headerComp'>
-        {p['*'] === '' ? <a href="/login">
-          <h2 style={{textAlign : 'center' , fontSize : '60%' , marginRight: '20px', color: 'black'}}>login</h2>
-        </a> : null}
-        <a href="/notifications">
-          <img src={require('../components/img/noti.png')} alt="noti" className="logo" />
+        <a href='/getuser' style={{display : 'flex' , flexDirection : 'column' , alignItems : 'center'}}>
+          <div className='circle' style={{height: '35px' , width: '35px' , backgroundColor : 'whitesmoke' , borderColor : 'gray' ,boxShadow : '1px 1.5px 0.5px 2px black'}}>
+            <div className='circle' style={{height: '30px' , width: '30px' , backgroundColor : '#B0E7FF' , borderColor : 'gray'}}/>
+
+          </div>
+          <h2 style={{color : 'black' , fontSize : '20px' , textAlign : 'center'}}>{"username : " + "\n" + user?.slice(0,10)}</h2>
         </a>
-        <img onClick={toggleDrawer(true)} src={require('../components/img/menu.png')} alt="menu" className="logo"  style={{width : '30%' }} />
       </nav>
       <Drawer content='space-between' anchor="right" open={isOpen} onClose={toggleDrawer(false)}>
         <List>

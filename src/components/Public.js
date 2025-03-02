@@ -17,18 +17,16 @@ const Public = () => {
     const content = (
         <div className="page">
             <Header/>
-            <section className="public">
+            <section className="public" style={{display : 'flex' , flexDirection : 'column' , alignItems : 'center'}}>
                 <header>
-                    <h1>Welcome to trash management app.</h1>
+                    <h1 style={{textAlign : 'center'}}>Welcome to trash management app.</h1>
                 </header>
-                <main>
+                <main style={{textAlign : 'center'}}>
                     
                     <p>this is still in development please use with caution</p>
                     <p>เว็บไซด์ที่ยังอยู่ในการพัฒนา โปรดใช้ด้วยความระวัง</p>
                 </main>
-                <footer>
-                    <Link to="/login">login or registor </Link>
-                </footer>
+                <button className='buttonCF' style={{fontSize : '90%' , height : '5vh'}} onClick={() => navigate('login')}>Login หรือ registor</button>
             </section>
         </div>
 

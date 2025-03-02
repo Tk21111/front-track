@@ -381,7 +381,7 @@ article {
     flex-direction: row;
     justify-content: space-between; /* This spreads items */
     align-items: center;
-    background-color: #fff4ac;
+    background-color: #B0E7FF;
     padding: 10px 20px;
     color: white;
     top: 50px;
@@ -413,7 +413,7 @@ article {
     flex-direction: row;
     justify-content: space-between; /* This spreads items */
     align-items: center;
-    background-color: #fff4ac;
+    background-color: #B0E7FF;
     padding: 10px 20px;
     color: white;
     top: 50px;
@@ -438,7 +438,7 @@ article {
     flex-direction: row;
     justify-content: space-between; /* This spreads items */
     align-items: center;
-    background-color: #fff4ac;
+    background-color: #B0E7FF;
     padding: 10px 20px;
     color: white;
     top: 50px;
@@ -466,7 +466,7 @@ article {
     flex-direction: row;
     justify-content: space-between; /* This spreads items */
     align-items: center;
-    background-color: #fff4ac;
+    background-color: #B0E7FF;
     padding: 10px 20px;
     color: white;
     top: 50px;
@@ -962,7 +962,6 @@ who ever fix this im sorry tk21111 18/10/2024
 }
 
 .buttonCF {
-  color: #F9AEFF;
   background-color: #B0E7FF;
   align-self: center;
   border-radius: 5vi;
@@ -976,7 +975,38 @@ who ever fix this im sorry tk21111 18/10/2024
     -1px  1px 0 black,  
      1px  1px 0 black;
   letter-spacing: 0.5vh;
+  transition: all 0.2s ease-in-out;
+  background-color: whitesmoke;
+  border: 2px solid black;
+  color: blue;
+  box-shadow: 2px 2px 0px 1px black;
+
 }
+
+.buttonCF:hover {
+  background-color: #dcdcdc; /* Slightly darker on hover */
+}
+
+.buttonCF:active {
+  background-color: #b0b0b0; /* Even darker when clicked */
+}
+
+.circle {
+  width: 60px; /* Adjust size as needed */
+  height: 60px;
+  background-color: orange; /* Inner color */
+  border: 4px solid darkorange; /* Darker orange border */
+  color: white; /* Text color */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Makes it a circle */
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Optional shadow */
+}
+
+
 .buttonCF-save {
   color: #F9AEFF;
   background-color: #B0E7FF;

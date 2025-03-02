@@ -66,12 +66,14 @@ const Login = () => {
         <div className='page'>
             <section className="login">
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> 
-
-                <h1 className='welcomefont' style={{color : '#FFE55F'}}>Log in</h1>
+                <div className="single-parent" style={{display : 'flex' , justifyContent: 'center'}}>
+                    <img src={require("../../components/img/Smart_drop_trash.png")} alt="logo" style={{width : '50%' , height : '50%'}}/>
+                </div>
+                <h1  style={{ textAlign : 'center'}}>Log in</h1>
 
                 <form onSubmit={handleSubmit}> 
-                    <label htmlFor="username"  className='welcomefont' style={{color : '#F9AEFF'}} >{translate("username")}</label>
-                    <input
+                <label htmlFor="username"  className='welcomefont' style={{color : 'whitesmoke' , textDecoration : 'underline' , textUnderlinePosition : 'under'}}>{translate("username")}</label>
+                <input
                         type="text"
                         id="username"
                         ref={userRef}
@@ -79,22 +81,24 @@ const Login = () => {
                         onChange={handleUserInput}
                         autoComplete="off"
                         required
+                        style={{backgroundColor : 'whitesmoke' , boxShadow : '2px 2px 0px 1px black'}}
                     />
 
-                    <label htmlFor="password"  className='welcomefont' style={{color : '#F9AEFF'}}>{translate("password")}</label>
+                    <label htmlFor="password"  className='welcomefont' style={{color : 'whitesmoke' , textDecoration : 'underline' , textUnderlinePosition : 'under'}}>{translate("password")}</label>
                     <input
                         type="password" //doesn't show it 
                         id="password"
                         onChange={handlePwdInput}
                         value={pwd}
                         required
-                    />
+                        style={{backgroundColor : 'whitesmoke' , boxShadow : '2px 2px 0px 1px black'}}
+                        />
 
-                    <label htmlFor="persist" className='welcomefont' style={{color : '#B0E7FF'}}>
+                        <label htmlFor="password"  className='welcomefont' style={{color : 'whitesmoke'  }}>
                         <input
                             type="checkbox"
-                            className="form__checkbox"
-                            style={{width : '5%' , height : '100%'}}
+                           
+                            style={{width : '10%' , height : '2vh'}}
                             id="persist"
                             onChange={handleToggle}
                             checked={persist}
@@ -102,10 +106,10 @@ const Login = () => {
                         />
                         {translate("TTD")}
                     </label>
-                    <button className='buttonCF'>{translate("login")}</button>
+                    <button className='buttonCF' >{translate("login")}</button>
                 </form>
                 <div style={{display : 'flex' , justifyContent: 'center' , marginTop : '3%'}}>
-                    <button onClickCapture={() => navigate('/registor')} className='buttonCF' style={{color : '#B0E7FF' , backgroundColor : '#F9AEFF'}}>{translate("signin")}</button>
+                    <button onClickCapture={() => navigate('/registor')} className='buttonCF' style={{color : 'whitesmoke' , backgroundColor : 'blue' , boxShadow : '3.5px 3.5px 0px 1px black'}}>{translate("signin")}</button>
                 </div>
             </section>
             
