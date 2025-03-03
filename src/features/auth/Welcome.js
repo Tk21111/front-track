@@ -75,7 +75,7 @@ const ImageUpload = () => {
         }}
       >
         {message ? <h1 style={{color : 'red'}}>{message}</h1> : null}
-        <h1>{translate("pretext-welcome")}</h1>
+        <h1 style={{fontSize : '30px'}}>{translate("pretext-welcome")}</h1>
         <h1 style={{ marginBottom: '20px' }}>Upload Image</h1>
         <form onSubmit={handleSubmit} style={{ marginBottom: '20px', gap: '20px' }}>
           <input type="file" className="buttonCF" onChange={handleFileChange} accept="image/*" />
