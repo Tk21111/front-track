@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentScore, selectCurrentToken, selectCurrentUser, selectCurrentUserId } from './authSlice';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 import Header from '../../components/Header';
 import { translate } from '../../hooks/translator';
+import { useImgMutation } from './authApiSlice';
 
 const ImageUpload = () => {
+  const [sendImg, { data, isLoading, isSuccess }] = useImgMutation();
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [uploadedImage, setUploadedImage] = useState(null);
   const [message, setMessage] = useState("");
-  const [imageType, setImageType] = useState(null); // New state to track the type
-
-  const userId = useSelector(selectCurrentUserId);
-  const score = useSelector(selectCurrentScore);
-  const username = useSelector(selectCurrentUser);
 
   // Handle the change event for file input
   const handleFileChange = (e) => {
@@ -36,76 +31,72 @@ const ImageUpload = () => {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append('type', imageType); // Append the selected type
 
     try {
-      const response = await fetch('http://localhost:8000/process_image', {
-        method: 'POST',
-        body: formData,
-        credentials : 'include'
-      });
-
-      const data = await response.json();
-
-      console.log(data);
-      if (response.ok) {
-        setMessage(data.type);
-        setUploadedImage(`http://localhost:3500${data.filePath}`);
-      } else {
-        setMessage("Failed to upload image.");
-      }
+      await sendImg({formData}).unwrap();
     } catch (error) {
       setMessage("Error uploading image.");
     }
   };
 
-  // Handle type button click (true or false)
-  const handleTypeChange = (type) => {
-    setImageType(type);
-  };
+
+
+  const prediction = data?.predictions?.[0].class;
+  const predictionPicture = [
+    {
+      color: 'orange',
+      text: 'สีเหลือง',
+      src: require('../../components/img/gogo.png'),
+    },
+    {
+      color: 'blue',
+      text: 'สีฟ้า',
+      src: require('../../components/img/lala.png'),
+    },
+  ];
+
+  // Ensure prediction is a valid index
+  const predictOutput =  predictionPicture[prediction] || null;
+  //debug
+  console.log(data)
 
   return (
     <div className="page" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-      <Header/>
-      <div style={{marginTop: '10vh' , display: 'flex', flexDirection: 'column' , flexWrap : 'wrap', alignItems: 'center', textAlign: 'center' ,   gap: '20px' // Adds space between child elements
-}}>
-      <h1>{translate("pretext-welcome")}</h1>
-      <h1 style={{ marginBottom: '20px' }}>Upload Image</h1>
-      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' , gap: '20px' }}>
-        <input type="file" className='buttonCF' onChange={handleFileChange} accept="image/*" />
-        <button type="submit" className='buttonCF'>Upload</button>
-      </form>
-      {preview && (
-        <div>
-          <h3>Preview:</h3>
-          <img src={preview} alt="Preview" style={{ width: '200px', height: 'auto' }} />
-        </div>
-      )}
-
-      {/* Conditional rendering based on the message */}
-      {message === "" ? null : (
-        message === "gogo" ? (
+      <Header />
+      <div
+        style={{
+          marginTop: '10vh',
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          textAlign: 'center',
+          gap: '20px', // Adds space between child elements
+        }}
+      >
+        {message ? <h1 style={{color : 'red'}}>{message}</h1> : null}
+        <h1>{translate("pretext-welcome")}</h1>
+        <h1 style={{ marginBottom: '20px' }}>Upload Image</h1>
+        <form onSubmit={handleSubmit} style={{ marginBottom: '20px', gap: '20px' }}>
+          <input type="file" className="buttonCF" onChange={handleFileChange} accept="image/*" />
+          <button type="submit" className="buttonCF">Upload</button>
+        </form>
+        {preview && (
           <div>
-            <h2 style={{ color: "orange" }}>{"ทิ้งถังขยะสีเหลือง"}</h2>
-            <img src={require('../../components/img/gogo.png')} alt="gogo" style={{ width: '200px', height: 'auto' }} />
+            <h3>Preview:</h3>
+            <img src={preview} alt="Preview" style={{ width: '200px', height: 'auto' }} />
           </div>
-        ) : (
-          <div>
-            <h2 style={{ color: "blue" }}>{"ทิ้งถังขยะสีฟ้า"}</h2>
-            <img src={require('../../components/img/lala.png')} alt="gogo" style={{ width: '200px', height: 'auto' }} />
-          </div>
-          
-        )
-      )}
+        )}
 
-      {/* Type selection buttons */}
-      <div>
-        <button onClick={() => handleTypeChange(true)}>gg</button>
-        <button onClick={() => handleTypeChange(false)}>lactasoy</button>
+        {/* Conditional rendering based on prediction */}
+        {predictOutput && (
+          <div>
+            <h2 style={{ color: predictOutput.color }}>{predictOutput.text}</h2>
+            <img src={predictOutput.src} alt="predict-image" />
+          </div>
+        )}
+
       </div>
-      </div>
-     
-      
     </div>
   );
 };

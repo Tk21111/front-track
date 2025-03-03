@@ -57,6 +57,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: {...credential}
             })
         }),
+        img : builder.mutation({
+            query : (data) => ({
+                url : '/img',
+                method : 'POST',
+                body : data.formData
+            })
+        })
     })
 })
 
@@ -64,5 +71,6 @@ export const {
     useLoginMutation,
     useSendLogoutMutation,
     useRefreshMutation,
-    useSigninMutation
+    useSigninMutation,
+    useImgMutation
 } = authApiSlice
