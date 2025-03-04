@@ -4,14 +4,17 @@ import { Link } from 'react-router-dom'; // Import Link for navigation
 import Header from '../../components/Header';
 import { translate } from '../../hooks/translator';
 import { useImgMutation } from './authApiSlice';
+import { Slider } from '@mui/material';
 
 const ImageUpload = () => {
   const [sendImg, { data, isLoading, isSuccess }] = useImgMutation();
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState("");
+  const [confidenceSelect , SetConfidenceSelect ] = useState(0.7);
 
-  /*test sample data
+  //test sample data
+  /*
   const data = {
     "inference_id": "36c4e003-1973-4e14-a280-b74e084df37a",
     "time": 0.05830865099960647,
@@ -29,10 +32,21 @@ const ImageUpload = () => {
             "class": "0",
             "class_id": 1,
             "detection_id": "7cdbeec4-fb2e-4ddb-8bb4-d461f7b644cf"
+        },
+        {
+            "x": 659.5,
+            "y": 991.5,
+            "width": 817,
+            "height": 1329,
+            "confidence": 0.5,
+            "class": "0",
+            "class_id": 3,
+            "detection_id": "7cdbeec4-fb2e-4ddb-8bb4-d461f7b644cf"
         }
     ]
   }
-  */
+    */
+  
 
   // Handle the change event for file input
   const handleFileChange = (e) => {
@@ -118,14 +132,29 @@ const ImageUpload = () => {
       src: require('../../components/img/not-match.png'),
     }
   ];
+  let prediction;
 
-  const prediction = data?.predictions?.[0]?.confidence > 0.7 && isSuccess ? data?.predictions?.[0]?.class : predictionPicture.length - 1;
+  if(data){
+    if(data.predictions.length > 1){
+      let sort = data.predictions.map(val => val.confidence);
+      let maxConfidence = sort.reduce((prev , curr) => {
+        return curr > prev ? curr : prev
+      });
+      prediction = data.predictions.find(val => val.confidence === maxConfidence);
+    } else {
+      prediction = data.predictions[0]
+    }
+    prediction =  prediction.confidence > confidenceSelect && isSuccess ? prediction.class_id : predictionPicture.length - 1;
+  }
+
   
 
   // set data to predictOutput format
-  const predictOutput =  isSuccess ? predictionPicture[prediction] : null;
+  const predictOutput =  predictionPicture[prediction] ;
   //debug
   console.log(data)
+
+
 
   return (
     <div className="page" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
@@ -157,6 +186,16 @@ const ImageUpload = () => {
         <h1 style={{ marginBottom: '20px' }}>Upload Image</h1>
         <form onSubmit={handleSubmit} style={{ marginBottom: '20px', gap: '20px' }}>
           <input type="file" className="buttonCF" onChange={handleFileChange} accept="image/*" />
+          <p>{"confidence : " + confidenceSelect}</p>
+          <input 
+            type="range" 
+            min={0.1} 
+            max={1} 
+            id="range" 
+            value={confidenceSelect} 
+            onChange={(e) => SetConfidenceSelect(parseFloat(e.target.value))}
+            step={0.01}
+          />
           <button type="submit" className="buttonCF">Upload</button>
         </form>
         {preview && (
@@ -165,9 +204,6 @@ const ImageUpload = () => {
             <img src={preview} alt="Preview" style={{ width: '200px', height: 'auto' }} />
           </div>
         )}
-
-        
-
       </div>
     </div>
   );
