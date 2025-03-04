@@ -77,8 +77,9 @@ const ImageUpload = () => {
       console.log(error)
       if(error.data.err === 413){
         setMessage("Image too Large")
+      } else {
+        setMessage("Error uploading image.");
       }
-      setMessage("Error uploading image.");
     }
   };
   
