@@ -1067,3 +1067,9 @@ who ever fix this im sorry tk21111 18/10/2024
   opacity: 1;
 }
 
+.img-prediction {
+  max-height: 70vh;
+  max-width: 70vh ;
+  transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+

@@ -11,6 +11,29 @@ const ImageUpload = () => {
   const [preview, setPreview] = useState(null);
   const [message, setMessage] = useState("");
 
+  /*test sample data
+  const data = {
+    "inference_id": "36c4e003-1973-4e14-a280-b74e084df37a",
+    "time": 0.05830865099960647,
+    "image": {
+        "width": 1125,
+        "height": 2000
+    },
+    "predictions": [
+        {
+            "x": 659.5,
+            "y": 991.5,
+            "width": 817,
+            "height": 1329,
+            "confidence": 0.8866305947303772,
+            "class": "0",
+            "class_id": 1,
+            "detection_id": "7cdbeec4-fb2e-4ddb-8bb4-d461f7b644cf"
+        }
+    ]
+  }
+  */
+
   // Handle the change event for file input
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -21,7 +44,9 @@ const ImageUpload = () => {
   };
 
   // Handle the form submission to upload the image
+  
   const handleSubmit = async (e) => {
+    setMessage("")
     e.preventDefault();
 
     if (!image) {
@@ -35,28 +60,70 @@ const ImageUpload = () => {
     try {
       await sendImg({formData}).unwrap();
     } catch (error) {
+      console.log(error)
+      if(error.data.err === 413){
+        setMessage("Image too Large")
+      }
       setMessage("Error uploading image.");
     }
   };
+  
 
 
-
-  const prediction = data?.predictions?.[0].class;
   const predictionPicture = [
     {
-      color: 'orange',
+      //เลย์ lay  0
+      color: '#f0e446',
       text: 'สีเหลือง',
-      src: require('../../components/img/gogo.png'),
+      src: require('../../components/img/lay.png'),
     },
     {
+      //lactasoy 1
       color: 'blue',
       text: 'สีฟ้า',
       src: require('../../components/img/lala.png'),
     },
+    {
+      //โก๋แก่ gogo 2
+      color: 'orange',
+      text: 'สีส้ม',
+      src: require('../../components/img/gogo.png'),
+    },
+    {
+      //ช้อคแลตตาซอย cl 3
+      color: '#bd6d3e',
+      text: 'สีนํ้าตาลขาว',
+      src: require('../../components/img/lala-choco.png'),
+    },
+    {
+       //เจลลี่แบร์ jb 4
+      color: '#ffbb1c',
+      text: 'สีทอง',
+      src: require('../../components/img/jb.png'),
+    },
+    {
+      //หมึกกรุบ mk 5
+      color: '#cf483e',
+      text: 'สีแดง',
+      src: require('../../components/img/mk.png'),
+    },
+    {
+      //m&m mm 6
+      color: '#85170d',
+      text: 'สีนํ้าตาล',
+      src: require('../../components/img/mm.png'),
+    },{
+      color : 'red',
+      text : 'Not Match',
+      src: require('../../components/img/not-match.png'),
+    }
   ];
 
-  // Ensure prediction is a valid index
-  const predictOutput =  predictionPicture[prediction] || null;
+  const prediction = data?.predictions?.[0]?.confidence > 0.7 && isSuccess ? data?.predictions?.[0]?.class : predictionPicture.length - 1;
+  
+
+  // set data to predictOutput format
+  const predictOutput =  isSuccess ? predictionPicture[prediction] : null;
   //debug
   console.log(data)
 
@@ -76,6 +143,17 @@ const ImageUpload = () => {
       >
         {message ? <h1 style={{color : 'red'}}>{message}</h1> : null}
         <h1 style={{fontSize : '30px'}}>{translate("pretext-welcome")}</h1>
+        {/* Conditional rendering based on prediction */}
+        {
+          isLoading && !isSuccess ? <p>Loading</p> : null 
+        }
+        {predictOutput && (
+          <div>
+            <h2 style={{ color: predictOutput.color }}>{predictOutput.text}</h2>
+            <img src={predictOutput.src} className='img-prediction' alt="predict-image" />
+          </div>
+        )}
+        
         <h1 style={{ marginBottom: '20px' }}>Upload Image</h1>
         <form onSubmit={handleSubmit} style={{ marginBottom: '20px', gap: '20px' }}>
           <input type="file" className="buttonCF" onChange={handleFileChange} accept="image/*" />
@@ -88,13 +166,7 @@ const ImageUpload = () => {
           </div>
         )}
 
-        {/* Conditional rendering based on prediction */}
-        {predictOutput && (
-          <div>
-            <h2 style={{ color: predictOutput.color }}>{predictOutput.text}</h2>
-            <img src={predictOutput.src} alt="predict-image" />
-          </div>
-        )}
+        
 
       </div>
     </div>
