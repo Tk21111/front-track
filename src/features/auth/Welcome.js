@@ -145,7 +145,7 @@ const ImageUpload = () => {
     } else {
       prediction = data.predictions[0]
     }
-    prediction =  prediction.confidence > confidenceSelect && isSuccess ? prediction.class_id : predictionPicture.length - 1;
+    prediction =  prediction?.confidence > confidenceSelect && isSuccess ? prediction.class_id : predictionPicture.length - 1;
   }
 
   
